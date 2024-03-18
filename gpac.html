@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPA Calculator</title>
+    <style>
+        body {
+            text-align: center;
+            height:100vh;
+            background-image: linear-gradient(#000046,#1CB5E0);   
+            color: white;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .course {
+            margin-bottom: 10px;
+        }
+
+        .buttons {
+            margin-top: 20px;
+        }
+
+        input, select, button {
+            margin: 5px;
+            padding: 5px;
+        }
+        button {
+    margin: 5px;
+    padding: 10px 20px;
+    background-color: #000046;
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color:white;
+}
+
+#add-course:hover {
+       color: black;
+}
+
+#calculate:hover {
+    color: black;
+}
+
+    </style>
+</head>
+<body>
+    <div id="main">
+        <h1>GPA Calculator</h1>
+        <div id="courses">
+            <div class="course">
+                <input type="text" class="course-code" placeholder="Course Code">
+                <input type="text" class="course-name" placeholder="Course Name">
+                <input type="number" class="credit-points" placeholder="Credits">
+
+                <select class="grade">
+                    <option value="10">O</option>
+                    <option value="9">A+</option>
+                    <option value="8">A</option>
+                    <option value="7">B+</option>
+                    <option value="6">B</option>
+                    <option value="5">C</option>
+                </select>
+            </div>
+        </div>
+        <div class="buttons">
+            <button id="add-course">Add Course</button>
+            <button id="calculate">Calculate GPA</button>
+        </div>
+    </div>
+    <div id="result"></div>
+<script>
+document.getElementById('add-course').addEventListener('click', function() {
+    const courses = document.getElementById('courses');
+    const courseDiv = document.createElement('div');
+    courseDiv.classList.add('course');
+    courseDiv.innerHTML = `
+        <input type="text" class="course-code" placeholder="Course Code">
+        <input type="text" class="course-name" placeholder="Course Name">
+        <input type="number" class="credit-points" placeholder="Credits">
+        <select class="grade">
+            <option value="10">O</option>
+            <option value="9">A+</option>
+            <option value="8">A</option>
+            <option value="7">B+</option>
+            <option value="6">B</option>
+            <option value="5">C</option>
+        </select>`;
+    courses.appendChild(courseDiv);
+});
+
+
+document.getElementById('calculate').addEventListener('click', function() {
+    const courses = document.getElementsByClassName('course');
+    let totalCreditPoints = 0;
+    let totalGradePoints = 0;
+
+    for (let course of courses) {
+        const creditPoints = parseFloat(course.querySelector('.credit-points').value);
+        const grade = parseFloat(course.querySelector('.grade').value);
+
+        if (!isNaN(creditPoints) && !isNaN(grade)) {
+            totalCreditPoints += creditPoints;
+            totalGradePoints += creditPoints * grade;
+        }
+    }
+
+    if (totalCreditPoints === 0) {
+        document.getElementById('result').textContent = "Please add some courses to calculate GPA.";
+    } else {
+        const gpa = totalGradePoints / totalCreditPoints;
+        document.getElementById('result').textContent = `Your GPA is: ${gpa.toFixed(2)}`;
+    }
+});
+</script>
+</body>
+</html>
